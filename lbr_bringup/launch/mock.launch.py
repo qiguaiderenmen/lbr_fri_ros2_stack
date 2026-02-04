@@ -1,5 +1,9 @@
 from launch import LaunchDescription
 from launch.actions import RegisterEventHandler
+
+from launch.actions import DeclareLaunchArgument
+
+
 from launch.event_handlers import OnProcessStart
 from launch.substitutions import LaunchConfiguration
 from lbr_bringup.description import LBRDescriptionMixin
@@ -12,13 +16,21 @@ def generate_launch_description() -> LaunchDescription:
     # launch arguments
     ld.add_action(LBRDescriptionMixin.arg_model())
     ld.add_action(LBRDescriptionMixin.arg_robot_name())
+    
+    ld.add_action(LBRDescriptionMixin.arg_base_xyz())
+    ld.add_action(LBRDescriptionMixin.arg_base_rpy())
+    
     ld.add_action(LBRROS2ControlMixin.arg_ctrl_cfg_pkg())
     ld.add_action(LBRROS2ControlMixin.arg_ctrl_cfg())
     ld.add_action(LBRROS2ControlMixin.arg_ctrl())
     ld.add_action(LBRROS2ControlMixin.arg_init_jnt_pos())
+    
+    
+
 
     # robot description
-    robot_description = LBRDescriptionMixin.param_robot_description(mode="mock")
+    robot_description = LBRDescriptionMixin.param_robot_description(
+      mode="mock")
 
     # robot state publisher
     robot_state_publisher = LBRROS2ControlMixin.node_robot_state_publisher(

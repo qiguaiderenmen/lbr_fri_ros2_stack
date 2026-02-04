@@ -14,6 +14,15 @@
     <xacro:arg
         name="initial_joint_positions_path"
         default="$(find lbr_description)/ros2_control/initial_joint_positions.yaml" />
+        
+    <xacro:arg name="base_xyz" default="0,0,0"/>
+    <xacro:arg name="base_rpy" default="0,0,0"/>
+    
+    <xacro:property name="base_xyz" value="$(arg base_xyz)"/>
+    <xacro:property name="base_rpy" value="$(arg base_rpy)"/>
+    
+    <xacro:property name="base_xyz_list" value="${base_xyz.split(',')}"/>
+    <xacro:property name="base_rpy_list" value="${base_rpy.split(',')}"/>
 
     <!-- KDL requires a link without inertia / Gazebo requires a connection to world link or robot
     will tipple https://github.com/lbr-stack/lbr_fri_ros2_stack/issues/230 -->
@@ -24,6 +33,11 @@
     <joint name="$(arg robot_name)_world_joint" type="fixed">
         <parent link="world" />
         <child link="$(arg robot_name)_link_0" />
+        
+        <origin
+        xyz="${base_xyz_list[0]} ${base_xyz_list[1]} ${base_xyz_list[2]}"
+        rpy="${base_rpy_list[0]} ${base_rpy_list[1]} ${base_rpy_list[2]}"/>
+        
     </joint>
 
     <!-- med -->

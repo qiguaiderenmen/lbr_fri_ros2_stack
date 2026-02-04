@@ -70,6 +70,10 @@ class LBRDescriptionMixin:
                     system_config_path,
                     " initial_joint_positions_path:=",
                     initial_joint_positions_path,
+                    " base_xyz:=",
+                    LaunchConfiguration("base_xyz"),
+                    " base_rpy:=",
+                    LaunchConfiguration("base_rpy"),
                 ]
             )
         }
@@ -104,6 +108,23 @@ class LBRDescriptionMixin:
                 "gazebo",
             ],
         )
+        
+    @staticmethod
+    def arg_base_xyz(default_value: str = "0 0 0") -> DeclareLaunchArgument:
+        return DeclareLaunchArgument(
+            name="base_xyz",
+            default_value=default_value,
+            description="Robot base position (xyz) in world frame",
+    )
+
+
+    @staticmethod
+    def arg_base_rpy(default_value: str = "0 0 0") -> DeclareLaunchArgument:
+        return DeclareLaunchArgument(
+            name="base_rpy",
+            default_value=default_value,
+            description="Robot base orientation (rpy) in world frame",
+    )
 
     @staticmethod
     def param_robot_name() -> Dict[str, LaunchConfiguration]:
